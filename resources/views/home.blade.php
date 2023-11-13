@@ -6,15 +6,13 @@
     <div class="card my-5 mx-auto border-0" style="max-width: 1000px;">
         <div class="row g-0">
             <div class="col-md-5">
-                <img src="ava-img/samoyed.jpg" alt="Trendy Pants and Shoes" class="img-fluid rounded-start" />
+                <img src="ava-img/samoyed.jpg" alt="img" class="img-fluid rounded-start" />
             </div>
             <div class="col-md-7 my-auto">
                 <div class="card-body text-center bg-transparent">
                     <p class="fs-2 fw-bold">Buat Janji Temu Dengan Guru BK</p>
                     <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet inventore delectus id accusamus
-                        tempore accusantium nam deleniti laboriosam earum, at a velit repudiandae ipsum dolores, ratione qui
-                        ut debitis impedit.
+                        Website ini dibuat agar siswa dapat membuat janji temu dengan guru bk yang tersedia. Guru bk akan melihat janji tersebut dan dapat menerima ataupun menolak janji yang telah dibuat oleh siswa.
                     </p>
                     <a href="#formJanji" type="button" class="btn btn-outline-dark btn-lg">Buat Janji</a>
                 </div>
@@ -38,19 +36,33 @@
                             <label for="nama">Nama Siswa</label>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <select class="form-select @error('kelas') is-invalid @enderror" id="kelas" name="kelas" aria-label="kelas">
-                            <option selected disabled>Kelas</option>
-                            <option value="10 RPL 1">10 RPL 1</option>
-                            <option value="11 RPL 1">11 RPL 1</option>
-                            <option value="12 RPL 1">12 RPL 1</option>
-                        </select>
-                        @error('kelas')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                    @if( auth()->user()->kelas != '' )
+                        <div class="col-4">
+                            <div class="form-floating">
+                                <input type="text" name="kelas" value="{{ auth()->user()->kelas }}" readonly class="form-control" id="kelas" placeholder="">
+                                <label for="nama">Kelas</label>
                             </div>
-                        @enderror
-                    </div>
+                            @error('kelas')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    @else 
+                        <div class="col-4">
+                            <select class="form-select @error('kelas') is-invalid @enderror" id="kelas" name="kelas" aria-label="kelas">
+                                <option selected disabled>Kelas</option>
+                                <option value="10 RPL 1">10 RPL 1</option>
+                                <option value="11 RPL 1">11 RPL 1</option>
+                                <option value="12 RPL 1">12 RPL 1</option>
+                            </select>
+                            @error('kelas')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Date input -->

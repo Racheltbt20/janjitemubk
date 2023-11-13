@@ -42,6 +42,12 @@ class JanjiController extends Controller
         $validatedData['user_id'] = $request->user_id;
         $validatedData['nama'] = $request->nama;
 
+        $siswa = User::where('id', auth()->user()->id)->first();
+
+        $siswa->update([
+            'kelas' => $validatedData['kelas']
+        ]);
+
         Janji::create($validatedData);
 
         toastr()->success('', 'Janji berhasil dibuat');

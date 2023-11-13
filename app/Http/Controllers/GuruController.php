@@ -38,7 +38,8 @@ class GuruController extends Controller
         
         // VALIDASI
         $validatedData = $request->validate([
-            'status' => 'required'
+            'status' => 'required',
+            'respon' => 'required|min:5'
         ], $message);
 
         Janji::where('id', $id)->update($validatedData);

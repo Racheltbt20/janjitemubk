@@ -19,10 +19,60 @@
 
 <body>
 
+    <!-- TOPBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- End Toggle button -->
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active fw-medium" href="{{ route('guru.index') }}">Daftar Janji</a>
+                </div>
+            </div>
+            <!-- End Collapsible wrapper -->
+            <!-- Avatar -->
+            <div class="dropdown">
+                <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+                    id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ asset('ava-img/samoyed.jpg') }}" class="rounded-circle" height="35"
+                        alt="Black and White Portrait of a Man" loading="lazy" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                    <li>
+                        <a class="dropdown-item disabled">Hai, {{ auth()->user()->nama }}!</a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="dropdown-item" href="#">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <!-- End Avatar-->
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+    <!-- END TOPBAR -->
+
     <div class="container" style="max-width: 700px" id="formJanji">
         <!-- DETAIL JANJI SISWA -->
         <p class="fs-2 fw-bold text-center mt-3">Detail Janji</p>
-        <div class="mt-3 mb-5 border border-2 border-primary rounded p-3">
+        <div class="d-flex justify-content-center">
+            <a href="{{ route('guru.index') }}">
+                <button class="btn btn-outline-primary btn-block mb-4">kembali</button>
+            </a>
+        </div>
+        <div class="mb-5 border border-2 border-primary rounded p-3">
             <form action="">
                 <div class="row mb-3">
                     <div class="form-floating col-3" id="id">
@@ -75,9 +125,14 @@
                     @method('put')
                     <div class="mb-3">
                         <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" aria-label="status" required>
-                            <option selected disabled>Status</option>
-                            <option value="diterima">diterima</option>
-                            <option value="ditolak">ditolak</option>
+                            @if($detail->status == 'menunggu') {
+                                <option selected disabled>Menunggu</option>
+                            } @else {
+                                <option selected disabled>Status</option>
+                            }
+                            @endif
+                            <option value="diterima">Diterima</option>
+                            <option value="ditolak">Ditolak</option>
                         </select>
                         @error('status')
                             <div class="invalid-feedback">
@@ -85,15 +140,15 @@
                             </div>
                         @enderror
                     </div>
-                    {{-- <div class="form-outline mb-3 text-start">
-                        <label class="form-label" for="keterangan">Respon</label>
-                        <textarea class="form-control" id="keterangan" rows="4" name="respon" required></textarea>
+                    <div class="form-outline mb-3 text-start">
+                        <label class="form-label" for="respon">Respon</label>
+                        <textarea class="form-control @error('respon') is-invalid @enderror" id="respon" rows="4" name="respon" required></textarea>
                         @error('respon')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div> --}}
+                    </div>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-outline-primary btn-block">Kirim</button>
                     </div>
@@ -106,10 +161,10 @@
                             <label for="status">Status</label>
                         </div>
                     </div>
-                    {{-- <div class="form-outline mb-2 text-start">
+                    <div class="form-outline mb-2 text-start">
                         <label class="form-label" for="keterangan">Respon</label>
                         <textarea class="form-control" id="keterangan" rows="4" readonly>{{ $detail->respon }}</textarea>
-                    </div> --}}
+                    </div>
                 </form>
             @endif
         </div>
